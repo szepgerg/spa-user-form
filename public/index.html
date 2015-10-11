@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="formApp">
+<head>
+	<meta charset="UTF-8">
+	<title>SPA for LogMeIn</title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./stylesheets/style.css">
+
+	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="//code.angularjs.org/1.4.7/angular.min.js"></script>
+	<script src="//code.angularjs.org/1.4.7/angular-messages.js"></script>
+	<script src="./javascripts/ui-bootstrap-tpls-0.14.0.min.js"></script>
+	<script src="./javascripts/core.js"></script>
+</head>
+<body>
+
+	<div class="container">
+		<div class="jumbotron text-center">
+			<h1>Simple user form with validation</h1>
+		</div>
+
+		<div id="user-form" class="row" ng-controller="UserFormController">
+			<div class="col-xs-12 col-sm-10 col-md-6 col-lg-5 col-xl-4">
+				<form id="userForm" name="userForm" ng-submit="submitForm(!userForm.$invalid)" novalidate>
+					<div class="form-group" ng-class="{ 'has-error': userForm.userName.$touched && userForm.userName.$invalid }">
+						<label class="control-label" for="user-name">Username *</label>
+						<input type="text" class="form-control" id="user-name" placeholder="User name" name="userName"
+							   ng-model="formData.userName" required ng-required="true" ng-minlength="4">
+						<div ng-messages="userForm.userName.$error" ng-if="userForm.userName.$touched">
+							<p class="help-block" ng-message="minlength">Username is too short.</p>
+							<p class="help-block" ng-message="required">Username is required.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error': userForm.email.$touched && userForm.email.$invalid }">
+						<label class="control-label" for="email">Email address *</label>
+						<input type="email" class="form-control" id="email" placeholder="Email address" name="email"
+							   ng-model="formData.email" required ng-required="true">
+						<div ng-messages="userForm.email.$error" ng-if="userForm.email.$touched">
+							<p class="help-block" ng-message="required">Email address is required.</p>
+							<p class="help-block" ng-message="email">Not a valid email address.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="occupation">Occupation</label>
+						<input type="text" class="form-control" id="occupation" placeholder="Occupation" name="occupation"
+								ng-model="formData.occupation" uib-typeahead="occ for occ in occupations | filter:$viewValue | limitTo:8">
+					</div>
+					<div class="form-group" ng-class="{ 'has-error': userForm.birthDate.$touched && userForm.birthDate.$invalid }">
+						<label class="control-label" for="birthDate">Birth date</label>
+						<p class="input-group">
+							<input type="text" class="form-control" id="birthDate" placeholder="Birth date" name="birthDate"
+									ng-model="formData.birthDate" uib-datepicker-popup="yyyy/MM/dd" is-open="datePickerOpened"
+									validate-age ng-required="false">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</p>
+						<div ng-messages="userForm.birthDate.$error" ng-if="userForm.birthDate.$touched">
+							<p class="help-block" ng-message="isAdult">User must be older than 18.</p>
+						</div>
+					</div>
+					<button data-target="#modal" data-toggle="modal"
+							type="submit" class="btn btn-primary btn-lg" ng-disabled="userForm.$invalid">
+						Submit
+					</button>
+
+					<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="modalLabel">Result</h4>
+								</div>
+								<div class="modal-body">
+									{{responseMsg}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
