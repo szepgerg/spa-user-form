@@ -6,7 +6,7 @@
   "author"       : "Gergely Szep",
   "repository": {
     "type": "git",
-    "url": "http://git.int.gravityrd.com/szepgergo/htmlrenderer.git"
+    "url": "https://github.com/szepgerg/spa-user-form.git"
   },
   "dependencies" : {
     "express"    : "~4.7.2",
